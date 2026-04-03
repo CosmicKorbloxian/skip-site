@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Menu</title>
+
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        background: black;
+        font-family: 'Comfortaa', sans-serif;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600&display=swap');
+
+    #snowCanvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    #credit-text {
+        text-align: center;
+        color: white;
+        font-size: 20px;
+        margin-top: 40px;
+        margin-bottom: 15px;
+        opacity: 0.85;
+        z-index: 2;
+        position: relative;
+    }
+
+    /* Support section */
+    #support {
+        text-align: center;
+        color: white;
+        margin-bottom: 25px;
+        z-index: 2;
+        position: relative;
+        font-family: 'Comfortaa', sans-serif;
+    }
+
+    #support-title {
+        font-size: 20px;
+        opacity: 0.9;
+    }
+
+    #support-link {
+        font-size: 18px;
+        color: #6bb6ff;
+        text-decoration: none;
+        opacity: 0.85;
+    }
+
+    #support-link:hover {
+        text-decoration: underline;
+        opacity: 1;
+    }
+
+    /* Community section */
+    #community {
+        text-align: center;
+        color: white;
+        margin-bottom: 25px;
+        z-index: 2;
+        position: relative;
+        font-family: 'Comfortaa', sans-serif;
+    }
+
+    #community-title {
+        font-size: 20px;
+        opacity: 0.9;
+    }
+
+    #community-link {
+        font-size: 18px;
+        color: #6bb6ff;
+        text-decoration: none;
+        opacity: 0.85;
+    }
+
+    #community-link:hover {
+        text-decoration: underline;
+        opacity: 1;
+    }
+
+    #menu {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -40%);
+        z-index: 2;
+        text-align: center;
+    }
+
+    .menu-btn {
+        width: 520px;
+        padding: 22px;
+        margin: 14px 0;
+        background: rgba(85, 85, 85, 0.75);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 26px;
+        cursor: pointer;
+        transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .menu-btn:hover {
+        background: rgba(50, 120, 255, 0.85);
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(50, 120, 255, 0.75);
+    }
+
+    #frameContainer {
+        width: 100vw;
+        height: 100vh;
+        display: none;
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+</style>
+</head>
+<body>
+
+<canvas id="snowCanvas"></canvas>
+
+<div id="credit-text">
+    made by Cosmic_Korbloxian<br>
+    <span style="font-size:16px; opacity:0.7;">no ai was used</span>
+</div>
+
+<div id="support">
+    <div id="support-title">Email us for support</div>
+    <a id="support-link" href="mailto:math-5u@gmail.com">math-5u@gmail.com</a>
+</div>
+
+<!-- NEW COMMUNITY SECTION -->
+<div id="community">
+    <div id="community-title">Join our community</div>
+    <a id="community-link" href="https://discord.gg/TAXCs4eVFS" target="_blank">https://discord.gg/TAXCs4eVFS</a>
+</div>
+
+<div id="menu">
+    <button class="menu-btn" onclick="loadSite('https://skip.nightly.pw/')">Skip</button>
+    <button class="menu-btn" onclick="loadSite('https://gnmath.global.ssl.fastly.net/')">GN-Math</button>
+    <button class="menu-btn" onclick="loadSite('https://www.coolmathgames.com/')">Cool Math Games</button>
+</div>
+
+<div id="frameContainer">
+    <iframe id="mainFrame"></iframe>
+</div>
+
+<script>
+const canvas = document.getElementById("snowCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let snowflakes = [];
+let snowActive = true;
+
+for (let i = 0; i < 120; i++) {
+    snowflakes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 3 + 1,
+        speed: Math.random() * 0.5 + 0.2
+    });
+}
+
+function drawSnow() {
+    if (!snowActive) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "white";
+
+    snowflakes.forEach(flake => {
+        ctx.beginPath();
+        ctx.arc(flake.x, flake.y, flake.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        flake.y += flake.speed;
+        if (flake.y > canvas.height) flake.y = -5;
+    });
+
+    requestAnimationFrame(drawSnow);
+}
+
+drawSnow();
+
+function loadSite(url) {
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("credit-text").style.display = "none";
+    document.getElementById("support").style.display = "none";
+    document.getElementById("community").style.display = "none";
+
+    snowActive = false;
+    document.getElementById("snowCanvas").style.display = "none";
+
+    document.getElementById("frameContainer").style.display = "block";
+    document.getElementById("mainFrame").src = url;
+}
+</script>
+
+</body>
+</html>
